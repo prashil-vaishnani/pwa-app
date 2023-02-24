@@ -12,16 +12,22 @@ this.addEventListener("install", (event) => {
         "manifest.json",
         "logo512.png",
         "logo192.png",
+        "/users",
+        "/about",
       ]);
     })
   );
 });
 this.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((res) => {
-      if (res) {
-        return res;
-      }
-    })
-  );
+  if (!navigator.onLine) {
+    event.respondWith(
+      caches.match(event.request).then((res) => {
+        if (res) {
+          return res;
+        }
+        // let requestUrl = event.request.clone();
+        // fetch(requestUrl);
+      })
+    );
+  }
 });
