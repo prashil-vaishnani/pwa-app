@@ -1,5 +1,6 @@
 //console.log("it's working!! tension not ");
 let cacheData = "v1";
+let CACHE_DYNAMIC_NAME="dynamic";
 
 this.addEventListener("install", (event) => {
   event.waitUntil(
@@ -25,8 +26,18 @@ this.addEventListener("fetch", (event) => {
         if (res) {
           return res;
         }
-        // let requestUrl = event.request.clone();
-        // fetch(requestUrl);
+        else {
+          return fetch(event.request)
+            .then(function(res) {
+              return caches.open(CACHE_DYNAMIC_NAME)
+                .then(function(cache) {
+                  cache.put(event.request.url, res.clone());
+                  return res;
+                })
+            })
+            .catch(function(err) {
+
+            });}
       })
     );
   }
