@@ -3,8 +3,9 @@ import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link, BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import About from "./pages/About";
+//import About from "./pages/About";
 import Users from "./pages/Users";
+const About = React.lazy(() => import("./pages/About"));
 
 function App() {
   return (
@@ -29,7 +30,14 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route
+            path="/about"
+            element={
+              <React.Suspense fallback={<>...</>}>
+                <About />
+              </React.Suspense>
+            }
+          />
           <Route path="/users" element={<Users />} />
         </Routes>
       </Router>
