@@ -52,3 +52,22 @@ this.addEventListener("fetch", (event) => {
     })
   );
 });
+
+// cache only
+// this.addEventListener("fetch", (event) => {
+//   event.respondWith(caches.match(event.request));
+// });
+
+// network only
+// this.addEventListener("fetch", (event) => {
+//   event.respondWith(fetch(event.request));
+// });
+
+// network then cache fallback
+// this.addEventListener("fetch", (event) => {
+//   event.respondWith(
+//     fetch(event.request).catch(function (err) {
+//       return caches.match(event.request);
+//     })
+//   );
+// });
