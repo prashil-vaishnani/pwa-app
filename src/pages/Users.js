@@ -9,14 +9,31 @@ const Users = () => {
     fetch(url)
       .then((res) => res.json())
       .then((result) => {
+        console.log("from network", result);
+        setMode("online");
         setUserData(result);
-        localStorage.setItem("users", JSON.stringify(result));
-      })
-      .catch((e) => {
-        setMode("offline");
-        let offlinedata = localStorage.getItem("users");
-        setUserData(JSON.parse(offlinedata));
+        //localStorage.setItem("users", JSON.stringify(result));
       });
+    // .catch((e) => {
+    //   setMode("offline");
+    //   let offlinedata = localStorage.getItem("users");
+    //   setUserData(JSON.parse(offlinedata));
+    // });
+    if ("caches" in window) {
+      setMode("offline");
+      caches
+        .match(url)
+        .then(function (response) {
+          if (response) {
+            return response.json();
+          }
+          
+        })
+        .then(function (data) {
+          console.log("From cache", data);
+          setUserData(data);
+        });
+    }
   }, []);
 
   return (
